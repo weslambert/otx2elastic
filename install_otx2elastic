@@ -1,5 +1,5 @@
 #!/bin/bash
-# Install memcached and MISP2Elastic script to correlate OTX threat feeds with Elasticsearch events in Security Onion
+# Install memcached and otx2elastic script to correlate OTX threat feeds with Elasticsearch events in Security Onion
 
 # Define our vars
 OUT_DIR="/opt/otx2elastic"
