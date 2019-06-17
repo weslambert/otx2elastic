@@ -1,0 +1,40 @@
+#!/bin/bash
+# Install memcached and MISP2Elastic script to correlate MISP threat intel with Elasticsearch events in Security Onion
+
+# Define our vars
+OUT_DIR="/opt/otx2elastic"
+CONFIG_DIR="/etc/otx2elastic"
+CONTAINER_NAME="otx2elastic"
+REPO="otx2elastic"
+
+# Clone repo and create config dir
+git clone https://github.com/weslambert/$REPO $OUT_DIR
+mkdir -p $CONFIG_DIR
+
+# Copy over our config
+for i in otx2elastic.conf otx2elastic.yaml; do
+  cp $OUT_DIR/otx2elastic/app/$i $CONFIG_DIR
+done
+
+cp $OUT_DIR/logstash/* /etc/logstash/custom
+
+#Install docker-compose if not already installed
+if dpkg -l | grep -q -i "docker-compose"; then
+        :
+else
+        echo "Installing docker-compose..."
+        apt-get install -y docker-compose
+fi
+
+echo "Installation complete!"
+echo
+echo "Specify connection settings for OTX and interval settings for sending to memcaached in $CONFIG_DIR/otx2elastic.conf."
+echo "You will need to specify tags for attribute types in $CONFIG_DIR/otx2elastic.yaml before starting the $CONTAINER_NAME container."
+echo 
+echo "Start services by running:"
+echo
+echo "sudo docker-compose -f $OUT_DIR/docker-compose.yaml up -d"
+echo
+echo "Make sure to restart Logstash with 'so-logstash-restart' as well.  It may take a few minuts until Logstash has fully restarted and is processing records."
+
+

@@ -1,0 +1,25 @@
+version: "2"
+
+services:
+
+  memcached:
+    container_name: memcached
+    image: memcached
+    restart: unless-stopped
+    ports:
+      - "11211:11211"
+    networks:
+      - so-elastic-net
+     
+  otx2elastic:
+    container_name: otx2elastic
+    build: /opt/otx2elastic/otx2elastic
+    restart: unless-stopped
+    networks:
+      - so-elastic-net
+    volumes:
+      - /etc/otx2elastic/otx2elastic.conf:/otx2elastic/otx2elastic.conf:ro
+
+networks:
+  so-elastic-net:
+    external: true
