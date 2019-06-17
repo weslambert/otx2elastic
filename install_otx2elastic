@@ -12,7 +12,7 @@ git clone https://github.com/weslambert/$REPO $OUT_DIR
 mkdir -p $CONFIG_DIR
 
 # Copy over our config
-for i in otx2elastic.conf otx2elastic.yaml; do
+for i in otx2elastic.conf; do
   cp $OUT_DIR/otx2elastic/app/$i $CONFIG_DIR
 done
 
